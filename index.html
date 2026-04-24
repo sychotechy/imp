@@ -1,971 +1,574 @@
-
-<style>
-:root {
-  :root {
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #f8fafc;
-  --color-background-tertiary: #eef2f7;
-
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #9ca3af;
-
-  --color-border-secondary: #e5e7eb;
-  --color-border-tertiary: #f1f5f9;
-
-  --border-radius-md: 12px;
-
-  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-}
-  /* Color System */
-  --accent: #1D9E75;
-  --accent-strong: #0F6E56;
-  --bg-main: #f7f9fb;
-  --bg-card: rgba(255, 255, 255, 0.75);
-  --bg-glass: rgba(255, 255, 255, 0.6);
-
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-
-  --border: rgba(0, 0, 0, 0.06);
-
-  /* Radius */
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-
-  /* Shadow */
-  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.08);
-
-  /* Typography */
-  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
-}
-
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font);
-  background: linear-gradient(180deg, #f9fafb, #eef2f7);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Layout */
-.wrapper {
-  max-width: 900px;
-  margin: auto;
-  padding: 1.2rem;
-}
-
-/* Header */
-.header-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 1.8rem;
-}
-
-.header-bar h1 {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.header-bar p {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-/* Pills */
-.pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.pill {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.pill:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
-}
-
-.pill.active {
-  background: var(--accent);
-  color: white;
-  border: none;
-}
-
-/* Cards Grid */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-
-.stat-card {
-  padding: 14px;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  text-align: center;
-  box-shadow: var(--shadow-soft);
-  transition: 0.25s;
-}
-
-.stat-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
-}
-
-.stat-card .num {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.stat-card .lbl {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-/* Module Card */
-.module-section {
-  margin-bottom: 1.2rem;
-}
-
-.module-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-soft);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.module-header:hover {
-  transform: translateY(-2px);
-}
-
-.module-header.open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.module-header h3 {
-  font-size: 14px;
-  flex: 1;
-}
-
-.chevron {
-  transition: 0.25s;
-}
-
-.module-header.open .chevron {
-  transform: rotate(180deg);
-}
-
-/* Module Body */
-.module-body {
-  display: none;
-  background: white;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-soft);
-}
-
-.module-body.open {
-  display: block;
-}
-
-/* Topic Rows */
-.topic-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  transition: 0.2s;
-}
-
-.topic-row:hover {
-  background: #f9fafb;
-}
-
-.topic-name {
-  flex: 1;
-  font-size: 13px;
-}
-
-.topic-name small {
-  display: block;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Progress bar */
-.freq-bar-wrap {
-  width: 80px;
-}
-
-.freq-bar-bg {
-  background: #e5e7eb;
-  height: 6px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.freq-bar {
-  height: 100%;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
-}
-
-/* Count */
-.freq-count {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* Badge */
-.imp-badge {
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-weight: 500;
-}
-
-/* Legend */
-.legend {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  font-size: 12px;
-  margin-bottom: 1.2rem;
-  color: var(--text-secondary);
-}
-
-/* Note Box */
-.note-box {
-  margin-top: 1.5rem;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  background: rgba(29, 158, 117, 0.08);
-  border-left: 4px solid var(--accent);
-}
-
-.note-box p {
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-/* RESPONSIVE (Mobile-first tuning) */
-@media (max-width: 768px) {
-  .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .topic-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .freq-bar-wrap {
-    width: 100%;
-  }
-
-  .header-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 480px) {
-  .wrapper {
-    padding: 1rem 0.8rem;
-  }
-
-  .summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stat-card .num {
-    font-size: 20px;
-  }
-
-  .module-header h3 {
-    font-size: 13px;
-  }
-} 
-
-/* ===== OVERALL SECTION FIX ===== */
-
-.overall-section {
-  margin-bottom: 1.8rem;
-}
-
-.overall-section h2 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.overall-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.ov-card {
-  position: relative;
-  padding: 14px;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-soft);
-  transition: 0.25s;
-}
-
-.ov-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-}
-
-.ov-topic {
-  font-size: 14px;
-  font-weight: 600;
-  margin-top: 6px;
-}
-
-.ov-mod {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.ov-count {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* Module badge colors */
-.mod-badge {
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-weight: 500;
-}
-
-.badge-m1 { background: #eef2ff; color: #3730a3; }
-.badge-m2 { background: #e0f2fe; color: #075985; }
-.badge-m3 { background: #dcfce7; color: #065f46; }
-.badge-m4 { background: #fef3c7; color: #92400e; }
-.badge-m5 { background: #fee2e2; color: #7f1d1d; }
-
-/* Legend dots */
-.leg-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-/* Mobile fix */
-@media (max-width: 480px) {
-  .overall-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================= */
-/* 🔥 MOBILE + UI UPGRADE */
-/* ============================= */
-
-/* Section labels (Part A / Part B) */
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-muted);
-  padding: 10px 14px;
-  margin-top: 6px;
-  background: linear-gradient(90deg, rgba(29,158,117,0.08), transparent);
-  border-left: 3px solid var(--accent);
-}
-
-/* Improve spacing between topic rows */
-.topic-row {
-  padding: 14px;
-  gap: 12px;
-}
-
-/* Add spacing between sections */
-.module-body {
-  padding-bottom: 6px;
-}
-
-/* Improve card feel */
-.module-header {
-  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
-  border: 1px solid var(--border);
-}
-
-/* Make topic rows feel like cards on mobile */
-@media (max-width: 768px) {
-
-  .module-body {
-    padding: 8px;
-  }
-
-  .topic-row {
-    flex-direction: column;
-    align-items: flex-start;
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 8px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  }
-
-  .topic-name {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .topic-name small {
-    margin-top: 3px;
-    font-size: 12px;
-  }
-
-  .freq-bar-wrap {
-    width: 100%;
-  }
-
-  .freq-count {
-    align-self: flex-end;
-    font-size: 13px;
-  }
-
-  .imp-badge {
-    align-self: flex-start;
-    margin-top: 4px;
-  }
-}
-
-/* Small mobile polish */
-@media (max-width: 480px) {
-
-  .wrapper {
-    padding: 1rem;
-  }
-
-  .header-bar h1 {
-    font-size: 18px;
-  }
-
-  .summary-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .stat-card {
-    padding: 12px;
-  }
-
-  /* Make overall cards single column */
-  .overall-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ov-card {
-    padding: 12px;
-  }
-}
-
-/* ============================= */
-/* ✨ VISUAL UPGRADE */
-/* ============================= */
-
-/* Gradient background glow */
-body::before {
-  content: "";
-  position: fixed;
-  top: -100px;
-  left: -100px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(29,158,117,0.15), transparent);
-  z-index: -1;
-}
-
-/* Smooth hover feel */
-.module-header,
-.ov-card,
-.stat-card {
-  transition: all 0.25s ease;
-}
-
-/* Add subtle divider between modules */
-.module-section {
-  margin-bottom: 16px;
-}
-
-/* Better legend spacing */
-.legend {
-  margin-top: 10px;
-  margin-bottom: 16px;
-  gap: 16px;
-}
-</style>
-
-<div class="wrapper">
-
-  <div class="header-bar">
-    <div>
-      <h1>CST426 — Client Server Architecture</h1>
-      <p>Exam topic frequency analysis · 4 papers · APJ Abdul Kalam Technological University</p>
-    </div>
-  </div>
-
-  <div class="summary-grid">
-    <div class="stat-card"><div class="num">4</div><div class="lbl">Papers analysed</div></div>
-    <div class="stat-card"><div class="num">5</div><div class="lbl">Modules</div></div>
-    <div class="stat-card"><div class="num">8</div><div class="lbl">Topics repeated 3–4×</div></div>
-    <div class="stat-card"><div class="num">2</div><div class="lbl">Topics repeated 4× (all papers)</div></div>
-  </div>
-
-  <div class="overall-section">
-  <h2>Highest-frequency topics across all papers</h2>
-
-  <div class="overall-grid">
-
-    <div class="ov-card">
-      <div class="ov-count" style="color:#E24B4A">4×</div>
-      <span class="mod-badge badge-m3">Module 3</span>
-      <div class="ov-topic">CORBA</div>
-      <div class="ov-mod">Asked in Part B of every single paper</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CST426 - Client Server Architecture</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="page-header">
+      <div class="header-copy">
+        <p class="eyebrow">APJ Abdul Kalam Technological University</p>
+        <h1>CST426 - Client Server Architecture</h1>
+        <p class="subtitle">Exam topic frequency analysis from 4 previous question papers.</p>
+      </div>
+      <div class="header-chip" aria-label="Analysis set">
+        <span>4</span>
+        <small>Papers</small>
+      </div>
+    </header>
+
+    <section class="stats-grid" aria-label="Analysis summary">
+      <article class="stat-card">
+        <span class="stat-number">4</span>
+        <span class="stat-label">Papers analysed</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Modules</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-number">8</span>
+        <span class="stat-label">High-frequency topics</span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-number">2</span>
+        <span class="stat-label">All-paper Part B repeats</span>
+      </article>
+    </section>
+
+    <section class="priority-section" aria-labelledby="priority-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Priority map</p>
+          <h2 id="priority-title">Highest-frequency topics across all papers</h2>
+        </div>
+      </div>
+
+      <div class="priority-grid">
+        <article class="priority-card must">
+          <div class="priority-topline">
+            <span class="module-badge badge-m3">Module 3</span>
+            <strong>4&times;</strong>
+          </div>
+          <h3>CORBA</h3>
+          <p>Asked in Part B of every single paper.</p>
+        </article>
+
+        <article class="priority-card must">
+          <div class="priority-topline">
+            <span class="module-badge badge-m3">Module 3</span>
+            <strong>4&times;</strong>
+          </div>
+          <h3>Network Operating System</h3>
+          <p>Asked in Part B of every single paper.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m1">Module 1</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>Key factors behind C/S development</h3>
+          <p>Papers 1, 3, 4 - Part B 10-mark question.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m1">Module 1</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>Security threats and measures</h3>
+          <p>Papers 1, 2, 4 - Part B question.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m2">Module 2</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>Business Information System architecture</h3>
+          <p>Papers 1, 3, 4 - Part B 10-mark question.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m2">Module 2</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>Two-tier and Three-tier architecture</h3>
+          <p>Papers 2, 3, 4 - Part B question.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m2">Module 2</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>MVC architecture</h3>
+          <p>Part A: Papers 1, 2. Part B: Paper 4.</p>
+        </article>
+
+        <article class="priority-card likely">
+          <div class="priority-topline">
+            <span class="module-badge badge-m4">Module 4</span>
+            <strong>3&times;</strong>
+          </div>
+          <h3>Availability, Reliability, Scalability, Agility</h3>
+          <p>All 4 papers - Part A and Part B.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="legend" aria-label="Frequency legend">
+      <span><i class="dot must"></i>Must prepare</span>
+      <span><i class="dot likely"></i>Very likely</span>
+      <span><i class="dot important"></i>Important</span>
+      <span><i class="dot possible"></i>Possible</span>
     </div>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#E24B4A">4×</div>
-      <span class="mod-badge badge-m3">Module 3</span>
-      <div class="ov-topic">Network Operating System</div>
-      <div class="ov-mod">Asked in Part B of every single paper</div>
+    <nav class="filter-bar" aria-label="Module filters">
+      <div class="filter-scroll">
+        <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-button" type="button" data-filter="m1" aria-pressed="false">Module 1</button>
+        <button class="filter-button" type="button" data-filter="m2" aria-pressed="false">Module 2</button>
+        <button class="filter-button" type="button" data-filter="m3" aria-pressed="false">Module 3</button>
+        <button class="filter-button" type="button" data-filter="m4" aria-pressed="false">Module 4</button>
+        <button class="filter-button" type="button" data-filter="m5" aria-pressed="false">Module 5</button>
+      </div>
+    </nav>
+
+    <div class="module-toolbar" aria-label="Accordion controls">
+      <button type="button" id="expandAll">Expand all</button>
+      <button type="button" id="collapseAll">Collapse all</button>
     </div>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m1">Module 1</span>
-      <div class="ov-topic">Key factors behind C/S development</div>
-      <div class="ov-mod">Papers 1, 3, 4 — Part B 10-mark question</div>
-    </div>
+    <section class="modules" aria-label="Module topic frequency">
+      <article class="module-section" data-mod="m1">
+        <button class="module-header open" type="button" aria-expanded="true">
+          <span class="module-badge badge-m1">Module 1</span>
+          <span class="module-title">Introduction to Client/Server Computing</span>
+          <span class="module-meta">Core theory and security</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m1">Module 1</span>
-      <div class="ov-topic">Security threats & measures</div>
-      <div class="ov-mod">Papers 1, 2, 4 — Part B question</div>
-    </div>
+        <div class="module-body open">
+          <h3 class="section-label">Part B - Long answer</h3>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Key factors/driving forces behind C/S development</h4>
+              <p>Perspectives: technical, organizational, economic - 10-mark question.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Security threats to C/S networks and mitigation</h4>
+              <p>Threats plus measures - Papers 1, 2, 4.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Organizational expectations on C/S technology</h4>
+              <p>Papers 2, 3 - Part B 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>System Integration Life-Cycle and development phases</h4>
+              <p>Papers 1, 4 - Part B 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>C/S system development tools</h4>
+              <p>Papers 2, 3 - Part B 4-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m2">Module 2</span>
-      <div class="ov-topic">Business Information System architecture</div>
-      <div class="ov-mod">Papers 1, 3, 4 — Part B 10-mark question</div>
-    </div>
+          <h3 class="section-label">Part A - Short answer</h3>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Advantages of C/S computing</h4>
+              <p>Papers 1, 4.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>C/S computing vs mainframe computing</h4>
+              <p>Papers 3, 4.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Stateful vs stateless servers</h4>
+              <p>Papers 2, 3.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+        </div>
+      </article>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m2">Module 2</span>
-      <div class="ov-topic">Two-tier & Three-tier architecture</div>
-      <div class="ov-mod">Papers 2, 3, 4 — Part B question</div>
-    </div>
+      <article class="module-section" data-mod="m2">
+        <button class="module-header open" type="button" aria-expanded="true">
+          <span class="module-badge badge-m2">Module 2</span>
+          <span class="module-title">C/S Architecture and Topologies</span>
+          <span class="module-meta">Architecture and diagrams</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m2">Module 2</span>
-      <div class="ov-topic">MVC architecture</div>
-      <div class="ov-mod">Part A: Papers 1, 2 · Part B: Paper 4</div>
-    </div>
+        <div class="module-body open">
+          <h3 class="section-label">Part B - Long answer</h3>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Business Information System architecture and distribution patterns</h4>
+              <p>Papers 1, 3, 4 - 10-mark with diagram.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Two-tier vs three-tier C/S architecture</h4>
+              <p>Papers 2, 3, 4 - advantages, disadvantages, comparison.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Types of C/S architecture-based environments</h4>
+              <p>Papers 1, 2, 3 - three environment types.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Role of Middleware in C/S architecture</h4>
+              <p>Papers 1, 3 Part B plus Paper 4 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Basic/foundational principles of C/S systems</h4>
+              <p>Papers 2, 4 - Part B 4-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
 
-    <div class="ov-card">
-      <div class="ov-count" style="color:#BA7517">3×</div>
-      <span class="mod-badge badge-m4">Module 4</span>
-      <div class="ov-topic">Availability / Reliability / Scalability / Agility</div>
-      <div class="ov-mod">All 4 papers — Part A and Part B</div>
-    </div>
+          <h3 class="section-label">Part A - Short answer</h3>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>MVC (Model View Controller) architecture</h4>
+              <p>Part A: Papers 1, 2. Part B: Paper 4.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>C/S topologies</h4>
+              <p>Part A: Paper 3. Part B: Paper 2 with sketch.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+        </div>
+      </article>
 
-  </div>
-</div>
+      <article class="module-section" data-mod="m3">
+        <button class="module-header open" type="button" aria-expanded="true">
+          <span class="module-badge badge-m3">Module 3</span>
+          <span class="module-title">Services, CORBA and Network OS</span>
+          <span class="module-meta">Appeared in all 4 papers</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
 
-<!-- Legend -->
-<div class="legend">
-  <span><span class="leg-dot" style="background:#E24B4A;"></span> Must prepare (4×)</span>
-  <span><span class="leg-dot" style="background:#BA7517;"></span> Very likely (3×)</span>
-  <span><span class="leg-dot" style="background:#1D9E75;"></span> Important (2×)</span>
-  <span><span class="leg-dot" style="background:#888780;"></span> Possible (1×)</span>
-</div>
+        <div class="module-body open">
+          <h3 class="section-label">Part B - Long answer</h3>
+          <div class="topic-card must">
+            <div class="topic-copy">
+              <h4>CORBA - cross-network platform and architecture</h4>
+              <p>Part B of all 4 papers - 8 to 10 marks.</p>
+            </div>
+            <div class="topic-meter" style="--value: 100%;"><span></span></div>
+            <strong class="topic-count">4&times;</strong>
+            <span class="priority-badge must">Must prepare</span>
+          </div>
+          <div class="topic-card must">
+            <div class="topic-copy">
+              <h4>Network Operating System - features and types</h4>
+              <p>Part B of all 4 papers - 4 to 6 marks.</p>
+            </div>
+            <div class="topic-meter" style="--value: 100%;"><span></span></div>
+            <strong class="topic-count">4&times;</strong>
+            <span class="priority-badge must">Must prepare</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Services provided by clients</h4>
+              <p>Papers 2, 3 Part B plus Papers 1, 3 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 100%;"><span></span></div>
+            <strong class="topic-count">4&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Server OS - features and types</h4>
+              <p>Papers 2, 3 Part B plus Paper 4 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>DDE, OLE, Remote Procedure Call</h4>
+              <p>Papers 1, 4 Part B - 10-mark with examples.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Server functionality and services provided by server</h4>
+              <p>Papers 1, 4 - Part B 4-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
 
-  <div class="legend">
-    <span><span class="leg-dot" style="background:#E24B4A;"></span> Must prepare (4×)</span>
-    <span><span class="leg-dot" style="background:#BA7517;"></span> Very likely (3×)</span>
-    <span><span class="leg-dot" style="background:#1D9E75;"></span> Important (2×)</span>
-    <span><span class="leg-dot" style="background:#888780;"></span> Possible (1×)</span>
-  </div>
+          <h3 class="section-label">Part A - Short answer</h3>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Services in a C/S system (server-side)</h4>
+              <p>Papers 1, 3.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+        </div>
+      </article>
 
-  <div class="pills">
-    <div class="pill active" onclick="showAll(this)">All modules</div>
-    <div class="pill" onclick="showOne(this,'m1')">Module 1</div>
-    <div class="pill" onclick="showOne(this,'m2')">Module 2</div>
-    <div class="pill" onclick="showOne(this,'m3')">Module 3</div>
-    <div class="pill" onclick="showOne(this,'m4')">Module 4</div>
-    <div class="pill" onclick="showOne(this,'m5')">Module 5</div>
-  </div>
+      <article class="module-section" data-mod="m4">
+        <button class="module-header open" type="button" aria-expanded="true">
+          <span class="module-badge badge-m4">Module 4</span>
+          <span class="module-title">Network Management and IPC</span>
+          <span class="module-meta">2 must-prepare topics</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
 
-  <!-- MODULE 1 -->
-  <div class="module-section" data-mod="m1">
-    <div class="module-header open" onclick="toggle(this)">
-      <span class="mod-badge badge-m1">Module 1</span>
-      <h3>Introduction to Client/Server Computing</h3>
-      <span class="top-tag">2 must-prepare topics</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="module-body open">
-      <div class="section-label">Part B — Long answer (most critical)</div>
-      <div class="topic-row">
-        <div class="topic-name">Key factors/driving forces behind C/S development<small>Perspectives: technical, organizational, economic — 10-mark question</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Security threats to C/S networks & mitigation<small>Threats + measures — Papers 1, 2, 4</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Organizational expectations on C/S technology<small>Papers 2, 3 — Part B 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">System Integration Life-Cycle & development phases<small>Papers 1, 4 — Part B 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">C/S system development tools<small>Papers 2, 3 — Part B 4-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="section-label">Part A — Short answer</div>
-      <div class="topic-row">
-        <div class="topic-name">Advantages of C/S computing<small>Papers 1, 4</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">C/S computing vs mainframe computing<small>Papers 3, 4</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Stateful vs stateless servers<small>Papers 2, 3</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-    </div>
-  </div>
+        <div class="module-body open">
+          <h3 class="section-label">Part B - Long answer</h3>
+          <div class="topic-card must">
+            <div class="topic-copy">
+              <h4>Availability, Reliability, Scalability, Serviceability, Agility</h4>
+              <p>All 4 papers - Part A (Papers 3, 4) plus Part B (Papers 1, 2).</p>
+            </div>
+            <div class="topic-meter" style="--value: 100%;"><span></span></div>
+            <strong class="topic-count">4&times;</strong>
+            <span class="priority-badge must">Must prepare</span>
+          </div>
+          <div class="topic-card must">
+            <div class="topic-copy">
+              <h4>X-terminals / X-Server - functions and services</h4>
+              <p>Part A: Papers 1, 2, 3. Part B: Paper 3.</p>
+            </div>
+            <div class="topic-meter" style="--value: 100%;"><span></span></div>
+            <strong class="topic-count">4&times;</strong>
+            <span class="priority-badge must">Must prepare</span>
+          </div>
+          <div class="topic-card likely">
+            <div class="topic-copy">
+              <h4>Basic Inter-Process Communication (IPC) mechanism</h4>
+              <p>Papers 1, 2 Part B plus Paper 4 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge likely">Very likely</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Communication Interface Technology in C/S</h4>
+              <p>Papers 3, 4 Part B - 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card possible">
+            <div class="topic-copy">
+              <h4>RPC vs ordinary procedure call</h4>
+              <p>Paper 1 Part B - 6-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 25%;"><span></span></div>
+            <strong class="topic-count">1&times;</strong>
+            <span class="priority-badge possible">Possible</span>
+          </div>
 
-  <!-- MODULE 2 -->
-  <div class="module-section" data-mod="m2">
-    <div class="module-header open" onclick="toggle(this)">
-      <span class="mod-badge badge-m2">Module 2</span>
-      <h3>C/S Architecture & Topologies</h3>
-      <span class="top-tag">3 very-likely topics</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="module-body open">
-      <div class="section-label">Part B — Long answer (most critical)</div>
-      <div class="topic-row">
-        <div class="topic-name">Business Information System architecture & distribution patterns<small>Papers 1, 3, 4 — 10-mark with diagram</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Two-tier vs three-tier C/S architecture<small>Papers 2, 3, 4 — advantages, disadvantages, comparison</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Types of C/S architecture-based environments<small>Papers 1, 2, 3 — 3 environment types</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Role of Middleware in C/S architecture<small>Papers 1, 3 Part B + Paper 4 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Basic/foundational principles of C/S systems<small>Papers 2, 4 — Part B 4-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="section-label">Part A — Short answer</div>
-      <div class="topic-row">
-        <div class="topic-name">MVC (Model View Controller) architecture<small>Part A: Papers 1, 2 — Part B: Paper 4</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">C/S topologies<small>Part A: Paper 3 — Part B: Paper 2 (with sketch)</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-    </div>
-  </div>
+          <h3 class="section-label">Part A - Short answer</h3>
+          <div class="topic-card possible">
+            <div class="topic-copy">
+              <h4>Telnet, RDP, SSH</h4>
+              <p>Paper 3 Part B - 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 25%;"><span></span></div>
+            <strong class="topic-count">1&times;</strong>
+            <span class="priority-badge possible">Possible</span>
+          </div>
+          <div class="topic-card possible">
+            <div class="topic-copy">
+              <h4>Token ring, FDDI, SNMP</h4>
+              <p>Paper 2 Part B - 9-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 25%;"><span></span></div>
+            <strong class="topic-count">1&times;</strong>
+            <span class="priority-badge possible">Possible</span>
+          </div>
+        </div>
+      </article>
 
-  <!-- MODULE 3 -->
-  <div class="module-section" data-mod="m3">
-    <div class="module-header open" onclick="toggle(this)">
-      <span class="mod-badge badge-m3">Module 3</span>
-      <h3>Services, CORBA & Network OS</h3>
-      <span class="top-tag">2 must-prepare topics (appeared in ALL 4 papers)</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="module-body open">
-      <div class="section-label">Part B — Long answer (most critical)</div>
-      <div class="topic-row">
-        <div class="topic-name">CORBA — cross-network platform, architecture<small>Part B of ALL 4 papers — 8 to 10 marks</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:100%; background:#E24B4A;"></div></div></div>
-        <div class="freq-count" style="color:#E24B4A;">4×</div>
-        <span class="imp-badge hot">Must prepare</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Network Operating System — features & types<small>Part B of ALL 4 papers — 4 to 6 marks</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:100%; background:#E24B4A;"></div></div></div>
-        <div class="freq-count" style="color:#E24B4A;">4×</div>
-        <span class="imp-badge hot">Must prepare</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Services provided by clients<small>Papers 2, 3 Part B + Papers 1, 3 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">4×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Server OS — features & types<small>Papers 2, 3 Part B + Paper 4 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">DDE, OLE, Remote Procedure Call<small>Papers 1, 4 Part B — 10-mark with examples</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Server functionality / services provided by server<small>Papers 1, 4 — Part B 4-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="section-label">Part A — Short answer</div>
-      <div class="topic-row">
-        <div class="topic-name">Services in a C/S system (server-side)<small>Papers 1, 3</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-    </div>
-  </div>
+      <article class="module-section" data-mod="m5">
+        <button class="module-header open" type="button" aria-expanded="true">
+          <span class="module-badge badge-m5">Module 5</span>
+          <span class="module-title">Web, Emerging Technologies and Future</span>
+          <span class="module-meta">Web and future systems</span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
 
-  <!-- MODULE 4 -->
-  <div class="module-section" data-mod="m4">
-    <div class="module-header open" onclick="toggle(this)">
-      <span class="mod-badge badge-m4">Module 4</span>
-      <h3>Network Management & IPC</h3>
-      <span class="top-tag">2 must-prepare topics</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="module-body open">
-      <div class="section-label">Part B — Long answer (most critical)</div>
-      <div class="topic-row">
-        <div class="topic-name">Availability, Reliability, Scalability, Serviceability, Agility<small>All 4 papers — Part A (Papers 3, 4) + Part B (Papers 1, 2)</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:100%; background:#E24B4A;"></div></div></div>
-        <div class="freq-count" style="color:#E24B4A;">4×</div>
-        <span class="imp-badge hot">Must prepare</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">X-terminals / X-Server — functions & services<small>Part A: Papers 1, 2, 3 — Part B: Paper 3</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:100%; background:#E24B4A;"></div></div></div>
-        <div class="freq-count" style="color:#E24B4A;">4×</div>
-        <span class="imp-badge hot">Must prepare</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Basic Inter-Process Communication (IPC) mechanism<small>Papers 1, 2 Part B + Paper 4 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:75%; background:#BA7517;"></div></div></div>
-        <div class="freq-count" style="color:#BA7517;">3×</div>
-        <span class="imp-badge high">Very likely</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Communication Interface Technology in C/S<small>Papers 3, 4 Part B — 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">RPC vs ordinary procedure call<small>Paper 1 Part B — 6-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:25%; background:#888780;"></div></div></div>
-        <div class="freq-count" style="color:#888780;">1×</div>
-        <span class="imp-badge" style="background:var(--color-background-secondary);color:var(--color-text-tertiary);">Possible</span>
-      </div>
-      <div class="section-label">Part A — Short answer (varied, study broadly)</div>
-      <div class="topic-row">
-        <div class="topic-name">Telnet, RDP, SSH<small>Paper 3 Part B — 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:25%; background:#888780;"></div></div></div>
-        <div class="freq-count" style="color:#888780;">1×</div>
-        <span class="imp-badge" style="background:var(--color-background-secondary);color:var(--color-text-tertiary);">Possible</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Token ring, FDDI, SNMP<small>Paper 2 Part B — 9-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:25%; background:#888780;"></div></div></div>
-        <div class="freq-count" style="color:#888780;">1×</div>
-        <span class="imp-badge" style="background:var(--color-background-secondary);color:var(--color-text-tertiary);">Possible</span>
-      </div>
-    </div>
-  </div>
+        <div class="module-body open">
+          <h3 class="section-label">Part B - Long answer</h3>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Enabling technologies - Expert System, Imaging, EDM</h4>
+              <p>Papers 1, 3 - Part B 8 to 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Database access on the Web</h4>
+              <p>Papers 2, 4 - Part B 4 to 8-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>First and second generation web applications</h4>
+              <p>Papers 2, 3 Part B plus Paper 3 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 75%;"><span></span></div>
+            <strong class="topic-count">3&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Java for client/server on the web</h4>
+              <p>Paper 1 Part B plus Paper 4 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>API gateway</h4>
+              <p>Paper 1 Part B (6-mark) plus Paper 4 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Service mesh and advantages</h4>
+              <p>Paper 2 Part B plus Paper 3 Part A.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
+          <div class="topic-card important">
+            <div class="topic-copy">
+              <h4>Electronic Data Interchange (EDI)</h4>
+              <p>Paper 2 Part A plus Paper 4 Part B.</p>
+            </div>
+            <div class="topic-meter" style="--value: 50%;"><span></span></div>
+            <strong class="topic-count">2&times;</strong>
+            <span class="priority-badge important">Important</span>
+          </div>
 
-  <!-- MODULE 5 -->
-  <div class="module-section" data-mod="m5">
-    <div class="module-header open" onclick="toggle(this)">
-      <span class="mod-badge badge-m5">Module 5</span>
-      <h3>Web, Emerging Technologies & Future</h3>
-      <span class="top-tag">4 important topics</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="module-body open">
-      <div class="section-label">Part B — Long answer (most critical)</div>
-      <div class="topic-row">
-        <div class="topic-name">Enabling technologies — Expert System, Imaging, EDM<small>Papers 1, 3 — Part B 8 to 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Database access on the Web<small>Papers 2, 4 — Part B 4 to 8-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">First & second generation web applications<small>Papers 2, 3 Part B + Paper 3 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">3×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Java for client/server on the web<small>Papers 1 Part B + Paper 4 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">API gateway<small>Paper 1 Part B (6-mark) + Paper 4 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Service mesh & advantages<small>Paper 2 Part B + Paper 3 Part A</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Electronic Data Interchange (EDI)<small>Paper 2 Part A + Paper 4 Part B</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:50%; background:#1D9E75;"></div></div></div>
-        <div class="freq-count" style="color:#1D9E75;">2×</div>
-        <span class="imp-badge med">Important</span>
-      </div>
-      <div class="section-label">Part B — Appeared once (but study as alternates)</div>
-      <div class="topic-row">
-        <div class="topic-name">Microservices and benefits<small>Paper 2 — 6-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:25%; background:#888780;"></div></div></div>
-        <div class="freq-count" style="color:#888780;">1×</div>
-        <span class="imp-badge" style="background:var(--color-background-secondary);color:var(--color-text-tertiary);">Possible</span>
-      </div>
-      <div class="topic-row">
-        <div class="topic-name">Future of C/S — POS, Full Text Retrieval, GIS<small>Paper 4 — 10-mark</small></div>
-        <div class="freq-bar-wrap"><div class="freq-bar-bg"><div class="freq-bar" style="width:25%; background:#888780;"></div></div></div>
-        <div class="freq-count" style="color:#888780;">1×</div>
-        <span class="imp-badge" style="background:var(--color-background-secondary);color:var(--color-text-tertiary);">Possible</span>
-      </div>
-    </div>
-  </div>
+          <h3 class="section-label">Part B - Appeared once</h3>
+          <div class="topic-card possible">
+            <div class="topic-copy">
+              <h4>Microservices and benefits</h4>
+              <p>Paper 2 - 6-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 25%;"><span></span></div>
+            <strong class="topic-count">1&times;</strong>
+            <span class="priority-badge possible">Possible</span>
+          </div>
+          <div class="topic-card possible">
+            <div class="topic-copy">
+              <h4>Future of C/S - POS, Full Text Retrieval, GIS</h4>
+              <p>Paper 4 - 10-mark.</p>
+            </div>
+            <div class="topic-meter" style="--value: 25%;"><span></span></div>
+            <strong class="topic-count">1&times;</strong>
+            <span class="priority-badge possible">Possible</span>
+          </div>
+        </div>
+      </article>
+    </section>
 
-  <div class="note-box">
-    <p><strong>Exam strategy note:</strong> Module 3 is the highest-risk module — both <strong>CORBA</strong> and <strong>Network OS</strong> appeared in Part B of every single paper. In Module 2, always draw a <strong>diagram for Business Information System architecture</strong> as the question consistently asks for one. Module 4's <strong>ARSSA terms</strong> (Availability, Reliability, Scalability, Serviceability, Agility) appear in all 4 papers in varying combinations — know examples for each. Module 1's driving-forces question is a safe bet as a 10-marker.</p>
-  </div>
+    <aside class="strategy-note" aria-label="Exam strategy note">
+      <p><strong>Exam strategy note:</strong> Module 3 is the highest-risk module: CORBA and Network OS appeared in Part B of every paper. For Module 2, draw a diagram for Business Information System architecture. For Module 4, know examples for Availability, Reliability, Scalability, Serviceability and Agility. Module 1's driving-forces question is a strong 10-mark bet.</p>
+    </aside>
+  </main>
 
-</div>
-
-<script>
-function toggle(header) {
-  header.classList.toggle('open');
-  const body = header.nextElementSibling;
-  body.classList.toggle('open');
-}
-function showAll(pill) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  pill.classList.add('active');
-  document.querySelectorAll('.module-section').forEach(s => s.style.display = '');
-}
-function showOne(pill, mod) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  pill.classList.add('active');
-  document.querySelectorAll('.module-section').forEach(s => {
-    s.style.display = s.dataset.mod === mod ? '' : 'none';
-  });
-}
-</script>
+  <script src="script.js"></script>
+</body>
+</html>
